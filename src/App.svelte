@@ -21,8 +21,6 @@
 	  });
 	}
   
-	// console.log(counties);
-  
 	async function getGeoLocation(position){
 	  console.log(position);
 	  loading = true;
@@ -41,19 +39,6 @@
 		});
   
 		loading = false;
-  
-		// setTimeout(() => {
-		//   const data = fakeObj;
-		//   const {address} = data;
-	
-		//   console.log(address);
-	
-		//   counties.forEach(countyName => {
-		//     if(address.county.includes(countyName) && !county) county = countyName;
-		//   });
-	
-		//   loading = false;
-		// }, 1000);
 	  } catch (error) {
 		console.error(error);
 	  }
@@ -61,7 +46,7 @@
   
 	function getActivities() {
 	  loading = true;
-	  const url = `https://failteireland.azure-api.net/opendata-api/v1/activities?$filter=search.ismatch(%27${county}%27,%27address/addressRegion%27)`;
+	  const url = `https://failteireland.azure-api.net/opendata-api/v1/activities?$filter=search.ismatch(%27${county}%27,%27address/addressRegion%27)&$top=10`;
   
 	  fetch(url)
 		.then(res => res.json())
@@ -75,9 +60,13 @@
 	}
   </script>
   
-  <style></style>
+  <style>
+	  .container {
+		  text-align: center;
+	  }
+  </style>
   
-  <div class="container mx-auto p-10 bg-gray-50 h-screen text-center">
+  <div class="container mx-auto p-10">
 	<h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-8">What's About</h1>
 	{#if county}
 	  <h2 class="text-1xl font-bold tracking-tight text-gray-900 sm:text-1xl mb-8">You are here: {county}</h2>
@@ -88,7 +77,7 @@
 	  {#if info.length >= 1}
 		<div class="card-container flex flex-row justify-center sm:py-12 flex-wrap">
 		  {#each info as card}
-			<Card url={card.url} name={card.name} tags={card['@type']} />
+			<Card url={card.url} name={card.name} tags={card['@type']} lat={card.geo.latitude} long={card.geo.longitude} />
 		  {/each}
 		</div>
 	  {:else}
