@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "concurrently npm:dev:*",
+    "dev:client": "rollup -c -w",
+    "dev:api": "vercel dev",
     "start": "sirv public"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
+    "concurrently": "^5.3.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.0.0",
     "rollup-plugin-livereload": "^2.0.0",
